@@ -4,6 +4,16 @@ import { Resend } from 'resend';
 import { readSetting } from '../common/config.util';
 import { CreateContactDto } from '../contact/dto/create-contact.dto';
 
+/** Shows enough of an address to identify it without publishing it. */
+const maskEmail = (value: string): string => {
+  const match = /<?([^<>@\s]+)@([^<>\s]+)>?$/.exec(value.trim());
+  if (!match) return 'not set';
+
+  const [, local, domain] = match;
+  const visible = local.length <= 2 ? local[0] : `${local[0]}${'*'.repeat(local.length - 2)}${local.at(-1)}`;
+  return `${visible}@${domain}`;
+};
+
 const escapeHtml = (value: string): string =>
   value
     .replace(/&/g, '&amp;')
@@ -78,6 +88,7 @@ export class MailService {
         reason: error.name,
         providerStatus: (error as { statusCode?: number }).statusCode ?? null,
         sender: this.from,
+        recipient: maskEmail(this.to),
       });
     }
 
