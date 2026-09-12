@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{meta.title}}</title>
+    <meta name="description" content="{{meta.description}}" />
+    <link rel="canonical" href="{{meta.canonical}}" />
+    <meta name="color-scheme" content="light dark" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="{{meta.title}}" />
+    <meta property="og:description" content="{{meta.description}}" />
+    <meta property="og:url" content="{{meta.canonical}}" />
+    <meta property="og:image" content="{{meta.url}}{{profile.photo.src}}" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="{{meta.title}}" />
+    <meta name="twitter:description" content="{{meta.description}}" />
+    <meta name="twitter:image" content="{{meta.url}}{{profile.photo.src}}" />
+
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{assets.styles}}" />
+    <script type="application/ld+json" nonce="{{nonce}}">{{{jsonLd}}}</script>
+    <script nonce="{{nonce}}">
+      // Resolve the theme before first paint so there is no flash.
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var theme =
+            stored === 'light' || stored === 'dark'
+              ? stored
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.classList.add('js');
+        } catch (error) {
+          document.documentElement.setAttribute('data-theme', 'light');
+          document.documentElement.classList.add('js');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="progress" data-progress aria-hidden="true"></div>
+    {{> nav}}
+    <main id="main">
+      {{> hero}}
+      {{> about}}
+      {{> work}}
+      {{> projects}}
+      {{> research}}
+      {{> record}}
+      {{> contact}}
+    </main>
+    {{> footer}}
+    <script src="{{assets.script}}" defer></script>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+<section class="section" id="skills">
+  <div class="section__head">
+    <h2 class="section__title">Skills</h2>
+    <p class="section__note">What I reach for, grouped by the kind of problem.</p>
+  </div>
+  <div class="section__body">
+    <div class="skills">
+      {{#each profile.skills}}
+        <div class="skills__group" data-reveal style="--i: {{@index}}">
+          <h3>{{title}}</h3>
+          <ul class="tags tags--loose">
+            {{#each items}}<li>{{this}}</li>{{/each}}
+          </ul>
+        </div>
+      {{/each}}
+    </div>
+
+    <div class="record">
+      <div class="record__col" data-reveal>
+        <h3 class="record__title">Education</h3>
+        {{#each profile.education}}
+          <div class="entry">
+            <h4>{{degree}}</h4>
+            <p class="entry__meta">
+              {{#if institutionUrl}}
+                <a class="link" href="{{institutionUrl}}" target="_blank" rel="noopener noreferrer">{{institution}}</a>
+              {{else}}<span>{{institution}}</span>{{/if}}
+              <span>{{location}}</span>
+              <span>{{period}}</span>
+            </p>
+            <p class="entry__grade">{{grade}}</p>
+            {{#if details}}
+              <ul class="entry__list">
+                {{#each details}}<li>{{this}}</li>{{/each}}
+              </ul>
+            {{/if}}
+          </div>
+        {{/each}}
+
+        <h3 class="record__title">Languages</h3>
+        <ul class="entry__list entry__list--plain">
+          {{#each profile.languages}}
+            <li><strong>{{name}}</strong> — {{level}}. {{note}}.</li>
+          {{/each}}
+        </ul>
+      </div>
+
+      <div class="record__col" data-reveal>
+        <h3 class="record__title">Honours</h3>
+        <ul class="entry__list entry__list--plain">
+          {{#each profile.awards}}<li>{{this}}</li>{{/each}}
+        </ul>
+
+        <h3 class="record__title">Training</h3>
+        {{#each profile.training}}
+          <div class="entry">
+            <h4>{{title}}</h4>
+            <p class="entry__meta"><span>{{organiser}}</span><span>{{period}}</span></p>
+            <p class="entry__text">{{description}}</p>
+          </div>
+        {{/each}}
+
+        <h3 class="record__title">Leadership</h3>
+        {{#each profile.volunteering}}
+          <div class="entry">
+            <h4>{{role}}, {{organisation}}</h4>
+            <p class="entry__meta"><span>{{period}}</span></p>
+            <ul class="entry__list">
+              {{#each highlights}}<li>{{this}}</li>{{/each}}
+            </ul>
+          </div>
+        {{/each}}
+
+        <h3 class="record__title">Teaching on the side</h3>
+        <div class="entry">
+          <h4>{{profile.creative.title}}</h4>
+          <p class="entry__text">{{profile.creative.description}}</p>
+          <p class="card__links">
+            <a class="link" href="{{profile.creative.url}}" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

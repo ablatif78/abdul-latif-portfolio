@@ -1,0 +1,31 @@
+<section class="section" id="about">
+  <div class="section__head">
+    <h2 class="section__title">About</h2>
+    <p class="section__note">Design and research, kept in the same practice.</p>
+  </div>
+  <div class="section__body">
+    <div class="about">
+      <div class="about__prose" data-reveal>
+        {{#each profile.about}}<p>{{this}}</p>{{/each}}
+      </div>
+      <aside class="about__aside">
+        <ul class="facts" data-reveal>
+          {{#each profile.stats}}
+            <li style="--i: {{@index}}">
+              <span class="facts__value">{{value}}</span><span class="facts__label">{{label}}</span>
+            </li>
+          {{/each}}
+        </ul>
+        <ul class="linklist" data-reveal>
+          {{#each profile.socials}}
+            <li style="--i: {{@index}}">
+              <a href="{{url}}"{{#unless (startsWith url "mailto:")}} target="_blank" rel="noopener noreferrer"{{/unless}}>
+                <span>{{label}}</span><span class="linklist__handle">{{handle}}</span>
+              </a>
+            </li>
+          {{/each}}
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>

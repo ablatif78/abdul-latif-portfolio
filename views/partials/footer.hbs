@@ -1,0 +1,12 @@
+<footer class="footer">
+  <div class="footer__inner">
+    <p class="footer__name">{{profile.name}}</p>
+    <ul class="footer__links">
+      <li><a href="{{profile.cv.href}}" download>CV</a></li>
+      {{#each profile.socials}}
+        <li><a href="{{url}}"{{#unless (startsWith url "mailto:")}} target="_blank" rel="noopener noreferrer"{{/unless}}>{{label}}</a></li>
+      {{/each}}
+    </ul>
+    <p class="footer__meta">© {{year}} · Server-rendered with NestJS</p>
+  </div>
+</footer>

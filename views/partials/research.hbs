@@ -1,0 +1,22 @@
+<section class="section" id="research">
+  <div class="section__head">
+    <h2 class="section__title">Research</h2>
+    <p class="section__note">Reading a printed ECG the way a cardiologist does — with a network.</p>
+  </div>
+  <div class="section__body">
+    {{#each profile.publications}}
+      <article class="paper" data-reveal>
+        <h3 class="paper__title">{{title}}</h3>
+        <p class="paper__authors">{{authors}}</p>
+        <dl class="paper__meta">
+          <div><dt>Presented at</dt><dd>{{venue}}</dd></div>
+          <div><dt>Date</dt><dd>{{date}}</dd></div>
+          <div><dt>Indexed</dt><dd>{{indexed}}</dd></div>
+        </dl>
+        <a class="button button--solid" href="{{url}}" target="_blank" rel="noopener noreferrer">
+          Read the paper on IEEE Xplore
+        </a>
+      </article>
+    {{/each}}
+  </div>
+</section>

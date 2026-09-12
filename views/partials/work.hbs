@@ -1,0 +1,33 @@
+<section class="section" id="work">
+  <div class="section__head">
+    <h2 class="section__title">Work</h2>
+    <p class="section__note">Four teams, three countries, one job: make the web work harder.</p>
+  </div>
+  <div class="section__body">
+    <ol class="timeline">
+      {{#each profile.experience}}
+        <li class="role{{#if current}} role--current{{/if}}" data-reveal>
+          <div class="role__when">
+            <span class="role__dates">{{start}} — {{end}}</span>
+            <span class="role__place">{{location}}</span>
+          </div>
+          <div class="role__what">
+            <h3 class="role__title">
+              {{role}},
+              {{#if companyUrl}}
+                <a class="link" href="{{companyUrl}}" target="_blank" rel="noopener noreferrer">{{company}}</a>
+              {{else}}{{company}}{{/if}}
+            </h3>
+            <p class="role__summary">{{summary}}</p>
+            <ul class="role__highlights">
+              {{#each highlights}}<li>{{this}}</li>{{/each}}
+            </ul>
+            <ul class="tags">
+              {{#each stack}}<li>{{this}}</li>{{/each}}
+            </ul>
+          </div>
+        </li>
+      {{/each}}
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,65 @@
+<section class="hero" id="top">
+  <div class="hero__top">
+    <div class="hero__lead">
+      <h1 class="hero__name" data-enter="1">{{profile.name}}</h1>
+      <p class="hero__intro" data-enter="2">{{profile.tagline}}</p>
+      <div class="hero__actions" data-enter="3">
+        <a class="button button--solid" href="#contact">Send a message</a>
+        <a class="button" href="{{profile.cv.href}}" download>
+          <svg class="button__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+               stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M8 2v8m0 0L4.8 6.8M8 10l3.2-3.2M2.5 12.5h11" />
+          </svg>
+          Download CV
+        </a>
+        <a class="hero__textlink link" href="#work">See the work</a>
+      </div>
+    </div>
+
+    <figure class="portrait" data-enter="2">
+      <div class="portrait__frame">
+        <img
+          src="{{profile.photo.src}}"
+          alt="{{profile.photo.alt}}"
+          width="{{profile.photo.width}}"
+          height="{{profile.photo.height}}"
+          fetchpriority="high"
+        />
+      </div>
+      <figcaption class="portrait__badge">Open to work</figcaption>
+    </figure>
+  </div>
+
+  <div class="trace" data-enter="4" role="img"
+       aria-label="A running electrocardiogram trace, the signal behind my published research">
+    <svg class="trace__svg" viewBox="0 0 1500 160" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <path id="ecg-beat" d="M0,88 L55,88 Q72,70 90,88 L122,88 L134,94 L146,32 L158,126 L170,82 L182,88 L228,88 Q252,60 276,88 L300,88" />
+      </defs>
+      <g class="trace__run">
+        <use href="#ecg-beat" x="0" /><use href="#ecg-beat" x="300" /><use href="#ecg-beat" x="600" />
+        <use href="#ecg-beat" x="900" /><use href="#ecg-beat" x="1200" /><use href="#ecg-beat" x="1500" />
+        <use href="#ecg-beat" x="1800" /><use href="#ecg-beat" x="2100" />
+      </g>
+    </svg>
+  </div>
+
+  <dl class="hero__facts" data-enter="5">
+    <div>
+      <dt>Now</dt>
+      <dd>{{profile.experience.0.role}} at {{profile.experience.0.company}}</dd>
+    </div>
+    <div>
+      <dt>Published</dt>
+      <dd>
+        <a class="link" href="{{profile.publications.0.url}}" target="_blank" rel="noopener noreferrer">
+          IEEE COMPAS 2025
+        </a>
+      </dd>
+    </div>
+    <div>
+      <dt>Open to</dt>
+      <dd>{{profile.availability}}</dd>
+    </div>
+  </dl>
+</section>
