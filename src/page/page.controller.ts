@@ -2,6 +2,7 @@ import { Controller, Get, Header, NotFoundException, Render, Res } from '@nestjs
 import { join } from 'node:path';
 import type { Response } from 'express';
 import { AssetsService } from '../common/assets.service';
+import { PUBLIC_DIR } from '../common/paths';
 import { ProfileService } from '../profile/profile.service';
 
 @Controller()
@@ -28,7 +29,7 @@ export class PageController {
   @Get('cv')
   downloadCv(@Res() res: Response): void {
     const { source, filename } = this.profileService.getProfile().cv;
-    res.download(join(__dirname, '..', '..', 'public', source), filename, (error) => {
+    res.download(join(PUBLIC_DIR, source), filename, (error) => {
       if (error && !res.headersSent) {
         throw new NotFoundException('The CV is not available right now.');
       }

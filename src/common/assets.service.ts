@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { PUBLIC_DIR } from './paths';
 
 /**
  * Content-hashed URLs for the static assets, so a deploy never serves a stale
@@ -10,7 +11,7 @@ import { join } from 'node:path';
 @Injectable()
 export class AssetsService {
   private readonly logger = new Logger(AssetsService.name);
-  private readonly publicDir = join(__dirname, '..', '..', 'public');
+  private readonly publicDir = PUBLIC_DIR;
 
   readonly styles = this.versioned('styles.css');
   readonly script = this.versioned('main.js');

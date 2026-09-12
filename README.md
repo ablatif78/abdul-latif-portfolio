@@ -96,11 +96,41 @@ public/                   styles.css, main.js, favicon.svg
 
 ## Deploying
 
-Any Node host works (Railway, Render, Fly, a VPS behind nginx):
+### Vercel
+
+`vercel.json` and `src/serverless.ts` are already in the repo, so the app runs as a serverless
+function — every request is routed to the Nest app, and `views/` and `public/` are bundled with it.
+
+1. Import the GitHub repo at <https://vercel.com/new>. No build command or output directory is
+   needed; `vercel.json` drives the build.
+2. Add the environment variables below under **Settings → Environment Variables**, ticking
+   *Production* (and *Preview* if you want the preview URLs to send mail too).
+3. Deploy, then set `SITE_URL` to the final domain and redeploy so canonical, Open Graph and
+   `sitemap.xml` point at the right place.
+
+| Variable | Required | Value |
+| --- | --- | --- |
+| `RESEND_API_KEY` | yes | The `re_…` key from <https://resend.com/api-keys>. |
+| `MAIL_FROM` | yes | A verified sender, e.g. `Abdul Latif <hello@yourdomain.com>`. |
+| `MAIL_TO` | yes | `abdullatif.cse@gmail.com`. |
+| `SITE_URL` | yes | `https://your-domain.com` — no trailing slash. |
+| `MAIL_SEND_ACK` | no | `true` to also confirm receipt to the visitor. |
+
+`NODE_ENV` is set to `production` by Vercel already, and `PORT` is unused on serverless — don't add
+either. Environment variables are read at cold start, so **redeploy after changing one**.
+
+One caveat: the 5-per-hour contact throttle is held in memory, so on serverless each instance counts
+separately and the limit is softer than it looks. The honeypot and validation still apply. If it
+ever matters, swap `ThrottlerModule`'s storage for a Redis-backed one.
+
+### Any Node host
+
+Railway, Render, Fly or a VPS behind nginx run it as a normal long-lived server, which keeps the
+rate limiter exact and avoids cold starts:
 
 ```bash
 npm ci && npm run build && npm run start:prod
 ```
 
-Set the environment variables above, point `SITE_URL` at the real domain, and keep the process
-behind HTTPS — `trust proxy` is already enabled so the rate limiter sees real client IPs.
+Set the same variables plus `PORT`, and keep the process behind HTTPS — `trust proxy` is already
+enabled so the rate limiter sees real client IPs.
