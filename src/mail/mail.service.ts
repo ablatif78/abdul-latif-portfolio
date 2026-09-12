@@ -65,11 +65,20 @@ export class MailService {
     });
 
     if (error) {
+      // The full message can name the account's own address, so it stays in the
+      // logs; the response carries only the classification.
       this.logger.error(
         `Resend rejected the message (from "${this.from}" to "${this.to}"): ` +
           `${error.name} — ${error.message}`,
       );
-      throw new ServiceUnavailableException('The message could not be delivered right now.');
+      throw new ServiceUnavailableException({
+        statusCode: 503,
+        error: 'Service Unavailable',
+        message: 'The message could not be delivered right now.',
+        reason: error.name,
+        providerStatus: (error as { statusCode?: number }).statusCode ?? null,
+        sender: this.from,
+      });
     }
 
     if (this.sendAcknowledgement) {
