@@ -1,6 +1,7 @@
 import { Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Resend } from 'resend';
+import { readSetting } from '../common/config.util';
 import { CreateContactDto } from '../contact/dto/create-contact.dto';
 
 const escapeHtml = (value: string): string =>
@@ -20,14 +21,23 @@ export class MailService {
   private readonly sendAcknowledgement: boolean;
 
   constructor(private readonly config: ConfigService) {
-    const apiKey = this.config.get<string>('RESEND_API_KEY');
+    const apiKey = readSetting(this.config, 'RESEND_API_KEY', '');
     this.client = apiKey ? new Resend(apiKey) : null;
-    this.from = this.config.get<string>('MAIL_FROM', 'Portfolio <onboarding@resend.dev>');
-    this.to = this.config.get<string>('MAIL_TO', 'abdullatif.cse@gmail.com');
-    this.sendAcknowledgement = this.config.get<string>('MAIL_SEND_ACK', 'false') === 'true';
+    this.from = readSetting(this.config, 'MAIL_FROM', 'Portfolio <onboarding@resend.dev>');
+    this.to = readSetting(this.config, 'MAIL_TO', 'abdullatif.cse@gmail.com');
+    this.sendAcknowledgement = readSetting(this.config, 'MAIL_SEND_ACK', 'false') === 'true';
 
     if (!this.client) {
       this.logger.warn('RESEND_API_KEY is not set — contact emails will not be delivered.');
+    } else {
+      this.logger.log(`Resend ready. Sending as "${this.from}" to "${this.to}".`);
+    }
+
+    if (this.from.includes('onboarding@resend.dev')) {
+      this.logger.warn(
+        'MAIL_FROM uses onboarding@resend.dev, which only delivers to the address that ' +
+          'registered the Resend account. Verify a domain for real delivery.',
+      );
     }
   }
 
@@ -55,7 +65,10 @@ export class MailService {
     });
 
     if (error) {
-      this.logger.error(`Resend rejected the message: ${error.name} — ${error.message}`);
+      this.logger.error(
+        `Resend rejected the message (from "${this.from}" to "${this.to}"): ` +
+          `${error.name} — ${error.message}`,
+      );
       throw new ServiceUnavailableException('The message could not be delivered right now.');
     }
 

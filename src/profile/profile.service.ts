@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { readSetting } from '../common/config.util';
 import { profile } from './profile.data';
 import { Profile } from './profile.types';
 
@@ -19,7 +20,7 @@ export class ProfileService {
   }
 
   getMeta(): SiteMeta {
-    const url = this.config.get<string>('SITE_URL', 'http://localhost:3000').replace(/\/$/, '');
+    const url = readSetting(this.config, 'SITE_URL', 'http://localhost:3000').replace(/\/$/, '');
     return {
       title: `${profile.name} — ${profile.role}`,
       description: profile.intro,
